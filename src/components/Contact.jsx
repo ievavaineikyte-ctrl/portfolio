@@ -15,7 +15,7 @@ const socials = [
   },
   {
     label: 'LinkedIn',
-    value: 'ieva-vaineikyte',
+    value: 'ieva-vaineikytė',
     href: 'https://www.linkedin.com/in/ieva-vaineikyte-6b1242419',
   },
 ]

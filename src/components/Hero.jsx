@@ -29,7 +29,7 @@ export default function Hero() {
           </div>
           <div className={styles.stats}>
             <div>
-              <span className={styles.statNum}>3+</span>
+              <span className={styles.statNum}>7+</span>
               <span className={styles.statLabel}>Projektai</span>
             </div>
             <div>
