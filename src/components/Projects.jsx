@@ -1,9 +1,14 @@
 import { useInView } from '../hooks/useInView'
-import { projects } from '../data/projects'
+import { defaultProjectPreview, projects } from '../data/projects'
 import styles from './Projects.module.css'
 
 function ProjectCard({ project, index }) {
-  const isImageFile = !project.image.startsWith('linear-gradient')
+  const isImageFile = Boolean(
+    project.image && !project.image.startsWith('linear-gradient'),
+  )
+  const previewBackground = project.image?.startsWith('linear-gradient')
+    ? project.image
+    : defaultProjectPreview
 
   return (
     <article className={styles.card} style={{ transitionDelay: `${index * 0.1}s` }}>
@@ -15,7 +20,7 @@ function ProjectCard({ project, index }) {
             className={styles.imageFile}
           />
         ) : (
-          <div className={styles.image} style={{ background: project.image }}>
+          <div className={styles.image} style={{ background: previewBackground }}>
             <span className={styles.placeholder}>Projekto peržiūra</span>
           </div>
         )}

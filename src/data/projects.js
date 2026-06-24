@@ -20,7 +20,7 @@ export const projects = [
     technologies: ['ArcGIS API', 'JavaScript', 'HTML', 'CSS'],
     github: 'https://github.com/ievavaineikyte-ctrl/arcgis-zemelapis',
     demo: `${import.meta.env.BASE_URL}demos/zemelapis/index.html`,
-    image: defaultProjectPreview,
+    image: null,
   },
   {
     id: 3,
