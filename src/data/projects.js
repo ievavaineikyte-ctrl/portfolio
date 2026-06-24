@@ -1,3 +1,6 @@
+export const defaultProjectPreview =
+  'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)'
+
 export const projects = [
   {
     id: 1,
@@ -17,7 +20,7 @@ export const projects = [
     technologies: ['ArcGIS API', 'JavaScript', 'HTML', 'CSS'],
     github: 'https://github.com/ievavaineikyte-ctrl/arcgis-zemelapis',
     demo: `${import.meta.env.BASE_URL}demos/zemelapis/index.html`,
-    image: 'linear-gradient(135deg, #1e3a5f 0%, #0d9488 50%, #5eead4 100%)',
+    image: defaultProjectPreview,
   },
   {
     id: 3,
@@ -27,7 +30,7 @@ export const projects = [
     technologies: ['Babylon.js', 'JavaScript', 'WebGL', 'HTML5'],
     github: 'https://github.com/ievavaineikyte-ctrl/babylon-3d-scena',
     demo: `${import.meta.env.BASE_URL}demos/babylon/index.html`,
-    image: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+    image: defaultProjectPreview,
   },
   {
     id: 4,
