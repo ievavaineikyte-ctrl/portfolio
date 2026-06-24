@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontaktai | Ieva Vaineikytė</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container-narrow nav-bar">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="Logo">
+        <span>Ieva Vaineikytė</span>
+      </a>
+      <button class="nav-toggle" aria-label="Meniu"><span></span><span></span><span></span></button>
+      <ul class="nav-links">
+        <li><a href="index.html">Pradžia</a></li>
+        <li><a href="about.html">Apie mane</a></li>
+        <li><a href="projects.html">Projektai</a></li>
+        <li><a href="contact.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container-narrow contact-wrap">
+      <div class="section-header" style="text-align: center;">
+        <h2>Susisiekime</h2>
+        <p style="margin: 0 auto;">Ieškau junior web developer galimybių. Parašyk — atsakysiu per 24 val.</p>
+      </div>
+
+      <div class="contact-card">
+        <form class="contact-form">
+          <div class="form-group">
+            <label for="name">Vardas</label>
+            <input id="name" type="text" class="form-control-custom" placeholder="Jūsų vardas" required>
+          </div>
+          <div class="form-group">
+            <label for="email">El. paštas</label>
+            <input id="email" type="email" class="form-control-custom" placeholder="jusu@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Žinutė</label>
+            <textarea id="message" class="form-control-custom" rows="4" placeholder="Kuo galiu padėti?" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Siųsti žinutę</button>
+        </form>
+
+        <div class="contact-links">
+          <a href="mailto:ieva.vaineikyte@gmail.com" class="contact-link">
+            <img src="mail.png" alt="">
+            <span>ieva.vaineikyte@gmail.com</span>
+          </a>
+          <a href="tel:+37061535733" class="contact-link">
+            <img src="messenger.png" alt="">
+            <span>+370 615 35733</span>
+          </a>
+          <a href="https://github.com/ievavaineikyte-ctrl" target="_blank" rel="noopener" class="contact-link">
+            <img src="facebook.png" alt="">
+            <span>github.com/ievavaineikyte-ctrl</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container-narrow footer-inner">
+      <p class="footer-text">© Ieva Vaineikytė — Web Developer</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
