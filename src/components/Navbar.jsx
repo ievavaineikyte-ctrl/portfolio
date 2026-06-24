@@ -31,7 +31,7 @@ export default function Navbar() {
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <nav className={styles.nav}>
         <a href="#" className={styles.logo} onClick={handleLinkClick}>
-          I.V.
+          ieva.dev
         </a>
 
         <ul className={`${styles.links} ${menuOpen ? styles.open : ''}`}>

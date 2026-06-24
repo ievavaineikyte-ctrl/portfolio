@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="utf-8" />
+  <title>ArcGIS aplikacija – Lietuvos miestų žemėlapis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.30/"></script>
+  <style>
+    /* ============================================
+       BENDRI STILIAI
+       ============================================ */
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      font-family: "Segoe UI", sans-serif;
+      background: #f7f8fa;
+    }
+
+    /* ============================================
+       VALDYMO KORTELĖ
+       ============================================ */
+    .controls {
+      position: absolute;
+      bottom: 25px;
+      left: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      padding: 14px 16px;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      z-index: 99;
+      border: 1px solid rgba(200, 200, 200, 0.3);
+    }
+
+    /* ============================================
+       KOORDINAČIŲ RODYKLĖ
+       ============================================ */
+    .coords {
+      position: absolute;
+      bottom: 70px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(6px);
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-family: monospace;
+      color: #333;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid rgba(220, 220, 220, 0.4);
+      z-index: 98;
+    }
+
+    /* ============================================
+       MYGTUKŲ STILIAI
+       ============================================ */
+    button {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-size: 14px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    #heatmapBtn {
+      background: linear-gradient(145deg, #a1c4fd, #c2e9fb);
+      color: #1f3b73;
+    }
+
+    #basemapBtn {
+      background: linear-gradient(145deg, #ffd6a5, #fff5ba);
+      color: #704214;
+    }
+
+    #randomBtn {
+      background: linear-gradient(145deg, #b9fbc0, #a3f7bf);
+      color: #1b4332;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      filter: brightness(1.05);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div id="viewDiv"></div>
+
+  <!-- Valdymo mygtukai -->
+  <div class="controls">
+    <button id="heatmapBtn">Įjungti Heatmap</button>
+    <button id="basemapBtn">Keisti žemėlapio stilių</button>
+    <button id="randomBtn">Atsitiktinis miestas</button>
+  </div>
+
+  <!-- Koordinačių rodiklis -->
+  <div id="coords" class="coords">Lat: -- | Lon: --</div>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/FeatureLayer",
+      "esri/widgets/Legend",
+      "esri/widgets/LayerList",
+      "esri/widgets/ScaleBar",
+      "esri/widgets/Expand"
+    ], function(Map, MapView, FeatureLayer, Legend, LayerList, ScaleBar, Expand) {
+
+      /* ============================================
+         FUNKCIONALUMAS 1: ŽEMĖLAPIO INICIALIZAVIMAS
+         ============================================ */
+      const map = new Map({
+        basemap: "streets-navigation-vector"
+      });
+
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [23.9, 55.2], // Lietuvos geografinis centras
+        zoom: 7 // Optimalus zoom lygis Lietuvos matymui
+      });
+
+      /* ============================================
+         FUNKCIONALUMAS 2: FEATURE LAYER SU POPUP
+         ArcGIS pavyzdys: FeatureLayer su popupTemplate
+         ============================================ */
+      const citiesLayer = new FeatureLayer({
+        url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Cities/FeatureServer/0",
+        where: "CNTRY_NAME = 'Lithuania'", // Filtruoja tik Lietuvos miestus
+        outFields: ["CITY_NAME", "CNTRY_NAME", "POP"],
+        popupTemplate: {
+          title: "{CITY_NAME}, {CNTRY_NAME}",
+          content: "Populiacija: {POP}"
+        }
+      });
+      map.add(citiesLayer);
+
+      /* ============================================
+         FUNKCIONALUMAS 3: LEGEND WIDGET
+         ArcGIS pavyzdys: Legend widget su Expand
+         ============================================ */
+      const legend = new Legend({
+        view: view
+      });
+      const legendExpand = new Expand({
+        view: view,
+        content: legend,
+        expanded: false,
+        expandIconClass: "esri-icon-layer-list"
+      });
+      view.ui.add(legendExpand, "top-right");
+
+      /* ============================================
+         FUNKCIONALUMAS 4: LAYER LIST WIDGET
+         ArcGIS pavyzdys: LayerList widget su Expand
+         ============================================ */
+      const layerList = new LayerList({
+        view: view
+      });
+      const layerListExpand = new Expand({
+        view: view,
+        content: layerList,
+        expanded: false,
+        expandIconClass: "esri-icon-layer-list"
+      });
+      view.ui.add(layerListExpand, "top-left");
+
+      /* ============================================
+         FUNKCIONALUMAS 5: SCALE BAR WIDGET
+         ArcGIS pavyzdys: ScaleBar widget
+         ============================================ */
+      const scaleBar = new ScaleBar({
+        view: view,
+        unit: "metric"
+      });
+      view.ui.add(scaleBar, { position: "bottom-right" });
+
+      /* ============================================
+         FUNKCIONALUMAS 6: KOORDINAČIŲ RODYMAS
+         Custom funkcionalumas - rodo pelės koordinates
+         ============================================ */
+      const coordsDiv = document.getElementById("coords");
+      view.on("pointer-move", function(event) {
+        const point = view.toMap({ x: event.x, y: event.y });
+        if (point) {
+          coordsDiv.textContent = `Lat: ${point.latitude.toFixed(4)} | Lon: ${point.longitude.toFixed(4)}`;
+        }
+      });
+
+      /* ============================================
+         FUNKCIONALUMAS 7: HEATMAP RENDERER
+         ArcGIS pavyzdys: Heatmap renderer su toggle
+         ============================================ */
+      let isHeatmapActive = false;
+      const heatmapRenderer = {
+        type: "heatmap",
+        field: "POP",
+        colorStops: [
+          { ratio: 0, color: "rgba(173, 216, 230, 0)" },
+          { ratio: 0.2, color: "rgba(173, 235, 255, 0.6)" },
+          { ratio: 0.4, color: "rgba(144, 238, 144, 0.7)" },
+          { ratio: 0.6, color: "rgba(255, 255, 153, 0.8)" },
+          { ratio: 0.8, color: "rgba(255, 204, 153, 0.9)" },
+          { ratio: 1, color: "rgba(255, 153, 153, 1)" }
+        ],
+        maxPixelIntensity: 20000000,
+        minPixelIntensity: 10000,
+        blurRadius: 14
+      };
+
+      const defaultRenderer = {
+        type: "simple",
+        symbol: {
+          type: "simple-marker",
+          size: 6,
+          outline: { color: "white", width: 0.5 }
+        },
+        visualVariables: [
+          {
+            type: "color",
+            field: "POP",
+            stops: [
+              { value: 50000, color: "#a1c4fd" },
+              { value: 500000, color: "#ffafbd" },
+              { value: 5000000, color: "#fbc2eb" }
+            ]
+          },
+          {
+            type: "size",
+            field: "POP",
+            stops: [
+              { value: 50000, size: 4 },
+              { value: 5000000, size: 12 }
+            ]
+          }
+        ]
+      };
+
+      const heatmapBtn = document.getElementById("heatmapBtn");
+      heatmapBtn.addEventListener("click", () => {
+        if (!isHeatmapActive) {
+          citiesLayer.renderer = heatmapRenderer;
+          heatmapBtn.textContent = "Išjungti Heatmap";
+          isHeatmapActive = true;
+        } else {
+          citiesLayer.renderer = defaultRenderer;
+          heatmapBtn.textContent = "Įjungti Heatmap";
+          isHeatmapActive = false;
+        }
+      });
+
+      /* ============================================
+         FUNKCIONALUMAS 8: BASEMAP KEITIMAS
+         ArcGIS pavyzdys: Basemap toggle functionality
+         ============================================ */
+      const basemaps = [
+        "streets-navigation-vector",
+        "satellite",
+        "topo-vector",
+        "gray-vector",
+        "oceans"
+      ];
+      let currentBasemapIndex = 0;
+      const basemapBtn = document.getElementById("basemapBtn");
+      basemapBtn.addEventListener("click", () => {
+        currentBasemapIndex = (currentBasemapIndex + 1) % basemaps.length;
+        map.basemap = basemaps[currentBasemapIndex];
+      });
+
+      /* ============================================
+         FUNKCIONALUMAS 9: ATSITIKTINIO MIESTO PARINKIMAS
+         Custom funkcionalumas - atsitiktinai parodo Lietuvos miestą
+         ============================================ */
+      const randomBtn = document.getElementById("randomBtn");
+      randomBtn.addEventListener("click", async () => {
+        try {
+          const query = citiesLayer.createQuery();
+          query.returnGeometry = true;
+          query.outFields = ["CITY_NAME", "CNTRY_NAME", "POP"];
+          query.num = 1000;
+          query.returnAllIds = true;
+          
+          const result = await citiesLayer.queryFeatures(query);
+
+          if (result.features.length > 0) {
+            const randomIndex = Math.floor(Math.random() * result.features.length);
+            const selectedCity = result.features[randomIndex];
+            
+            view.goTo({
+              center: selectedCity.geometry,
+              zoom: 8
+            });
+            
+            view.popup.open({
+              title: `${selectedCity.attributes.CITY_NAME}, ${selectedCity.attributes.CNTRY_NAME}`,
+              content: `Populiacija: ${selectedCity.attributes.POP}`,
+              location: selectedCity.geometry
+            });
+          } else {
+            alert("Nerasta Lietuvos miestų!");
+          }
+        } catch (error) {
+          console.error("Klaida užklausiant miestus:", error);
+          alert("Įvyko klaida. Bandykite dar kartą.");
+        }
+      });
+
+    });
+  </script>
+</body>
+</html>

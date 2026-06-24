@@ -23,7 +23,7 @@ export default function About() {
       ref={ref}
     >
       <div className={styles.container}>
-        <span className={styles.label}>01 — Apie mane</span>
+        <span className={styles.label}>// about</span>
         <h2 className={styles.heading}>Kas aš?</h2>
 
         <div className={styles.grid}>

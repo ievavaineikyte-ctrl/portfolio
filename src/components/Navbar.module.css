@@ -9,7 +9,7 @@
 }
 
 .scrolled {
-  background: rgba(12, 12, 18, 0.85);
+  background: rgba(8, 8, 11, 0.9);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
@@ -23,15 +23,15 @@
 }
 
 .logo {
-  font-weight: 600;
-  font-size: 0.9375rem;
-  letter-spacing: 0.04em;
-  color: var(--text);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  color: var(--accent);
   transition: color var(--transition);
 }
 
 .logo:hover {
-  color: var(--accent);
+  color: var(--text);
 }
 
 .links {
@@ -41,13 +41,14 @@
 }
 
 .links a {
-  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   color: var(--text-muted);
   transition: color var(--transition);
 }
 
 .links a:hover {
-  color: var(--text);
+  color: var(--accent);
 }
 
 .burger {

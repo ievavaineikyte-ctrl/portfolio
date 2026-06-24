@@ -27,14 +27,14 @@ function ProjectCard({ project, index }) {
       <div className={styles.body}>
         <h3 className={styles.title}>{project.title}</h3>
         <p className={styles.description}>{project.description}</p>
-
         <ul className={styles.tech}>
           {project.technologies.map((tech) => (
             <li key={tech}>{tech}</li>
           ))}
         </ul>
+      </div>
 
-        <div className={styles.links}>
+      <div className={styles.links}>
           <a
             href={project.github}
             target="_blank"
@@ -59,7 +59,6 @@ function ProjectCard({ project, index }) {
               </svg>
             </a>
           )}
-        </div>
       </div>
     </article>
   )
@@ -75,7 +74,7 @@ export default function Projects() {
       ref={ref}
     >
       <div className={styles.container}>
-        <span className={styles.label}>03 — Projektai</span>
+        <span className={styles.label}>// projects</span>
         <h2 className={styles.heading}>Pasirinkti darbai</h2>
         <p className={styles.subtitle}>
           Projektai, kurie parodo mano požiūrį į kodą, dizainą ir problemų sprendimą.

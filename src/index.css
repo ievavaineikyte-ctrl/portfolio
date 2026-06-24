@@ -7,21 +7,24 @@
 }
 
 :root {
-  --bg: #0c0c12;
-  --bg-elevated: #13131c;
-  --bg-card: #16161f;
-  --border: rgba(255, 255, 255, 0.06);
-  --text: #f0f0f5;
-  --text-muted: #8b8b9e;
-  --accent: #a8b4ff;
-  --accent-soft: rgba(168, 180, 255, 0.12);
-  --accent-mint: #7ee8c7;
-  --accent-pink: #f0abfc;
-  --font: 'Inter', system-ui, -apple-system, sans-serif;
-  --max-width: 1100px;
+  --bg: #08080b;
+  --bg-elevated: #0f0f14;
+  --bg-card: #12121a;
+  --border: rgba(255, 255, 255, 0.07);
+  --text: #ececf1;
+  --text-muted: #7a7a8c;
+  --accent: #5eead4;
+  --accent-warm: #f97316;
+  --accent-soft: rgba(94, 234, 212, 0.1);
+  --accent-mint: #5eead4;
+  --accent-pink: #f97316;
+  --font: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --max-width: 1080px;
   --section-gap: clamp(5rem, 12vw, 8rem);
-  --radius: 12px;
-  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 4px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html {
@@ -35,6 +38,23 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
 }
 
 a {
@@ -56,5 +76,5 @@ img {
 
 ::selection {
   background: var(--accent-soft);
-  color: var(--text);
+  color: var(--accent);
 }

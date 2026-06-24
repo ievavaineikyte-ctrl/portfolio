@@ -26,7 +26,7 @@ export default function Skills() {
       ref={ref}
     >
       <div className={styles.container}>
-        <span className={styles.label}>02 — Įgūdžiai</span>
+        <span className={styles.label}>// skills</span>
         <h2 className={styles.heading}>Technologijos</h2>
 
         <div className={styles.grid}>
