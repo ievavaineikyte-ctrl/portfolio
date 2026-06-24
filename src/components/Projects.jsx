@@ -3,13 +3,7 @@ import { projects } from '../data/projects'
 import styles from './Projects.module.css'
 
 function ProjectCard({ project, index }) {
-  const isImageFile =
-    project.image.startsWith('/') ||
-    project.image.startsWith('http') ||
-    project.image.includes('/demos/') ||
-    project.image.endsWith('.svg') ||
-    project.image.endsWith('.png') ||
-    project.image.endsWith('.jpg')
+  const isImageFile = !project.image.startsWith('linear-gradient')
 
   return (
     <article className={styles.card} style={{ transitionDelay: `${index * 0.1}s` }}>
