@@ -4,7 +4,9 @@ import styles from './Projects.module.css'
 
 function ProjectCard({ project, index }) {
   const isImageFile =
-    project.image.startsWith('/') || project.image.startsWith('http')
+    project.image.startsWith('/') ||
+    project.image.startsWith('http') ||
+    project.image.includes('/demos/')
 
   return (
     <article className={styles.card} style={{ transitionDelay: `${index * 0.1}s` }}>
