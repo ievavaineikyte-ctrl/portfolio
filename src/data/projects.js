@@ -17,7 +17,7 @@ export const projects = [
     technologies: ['ArcGIS API', 'JavaScript', 'HTML', 'CSS'],
     github: 'https://github.com/ievavaineikyte-ctrl/arcgis-zemelapis',
     demo: `${import.meta.env.BASE_URL}demos/zemelapis/index.html`,
-    image: `${import.meta.env.BASE_URL}demos/zemelapis/preview.svg`,
+    image: 'linear-gradient(135deg, #1e3a5f 0%, #0d9488 50%, #5eead4 100%)',
   },
   {
     id: 3,

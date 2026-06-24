@@ -16,12 +16,31 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 foreach ($r in $repos) {
+  $remote = "https://github.com/ievavaineikyte-ctrl/$($r.name).git"
   Write-Host "`n=== $($r.name) ==="
+
   gh repo view "ievavaineikyte-ctrl/$($r.name)" 2>$null
   if ($LASTEXITCODE -ne 0) {
-    gh repo create "ievavaineikyte-ctrl/$($r.name)" --public --description $r.desc --source $r.path --remote origin --push
+    gh repo create "ievavaineikyte-ctrl/$($r.name)" --public --description $r.desc
+    if ($LASTEXITCODE -ne 0) {
+      Write-Host "X Nepavyko sukurti repozitorijos"
+      continue
+    }
+    Write-Host "✓ Sukurta repozitorija"
+  }
+
+  git -C $r.path remote get-url origin 2>$null
+  if ($LASTEXITCODE -eq 0) {
+    git -C $r.path remote set-url origin $remote
   } else {
-    git -C $r.path push -u origin main
+    git -C $r.path remote add origin $remote
+  }
+
+  git -C $r.path push -u origin main 2>&1 | Out-Null
+  if ($LASTEXITCODE -eq 0) {
+    Write-Host "✓ Ikelta: $remote"
+  } else {
+    Write-Host "X Push nepavyko"
   }
 }
 
