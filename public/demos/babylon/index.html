@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Babylon.js sample code</title>
+
+        <!-- Babylon.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+        <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
+        <script src="https://cdn.babylonjs.com/recast.js"></script>
+        <script src="https://cdn.babylonjs.com/ammo.js"></script>
+        <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
+        <script src="https://cdn.babylonjs.com/cannon.js"></script>
+        <script src="https://cdn.babylonjs.com/Oimo.js"></script>
+        <script src="https://cdn.babylonjs.com/earcut.min.js"></script>
+        <script src="https://cdn.babylonjs.com/babylon.js"></script>
+        <script src="https://cdn.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+        <script src="https://cdn.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+        <script src="https://cdn.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+        <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <script src="https://cdn.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+        <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+        <script src="https://cdn.babylonjs.com/addons/babylonjs.addons.min.js"></script>
+        <script src="https://cdn.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+
+        <style>
+            html,
+            body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+
+            #canvasZone {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="canvasZone"><canvas id="renderCanvas"></canvas></div>
+        <script>
+                    var canvas = document.getElementById("renderCanvas");
+
+                    var startRenderLoop = function (engine, canvas) {
+                        engine.runRenderLoop(function () {
+                            if (sceneToRender && sceneToRender.activeCamera) {
+                                sceneToRender.render();
+                            }
+                        });
+                    }
+
+                    var engine = null;
+        var scene = null;
+        var sceneToRender = null;
+        var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false}); };
+        var createScene = function () {
+var scene = new BABYLON.Scene(engine);
+
+    // Apsvietimas
+var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(0, 100, 100), scene);
+    
+    //Kamera
+var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, new BABYLON.Vector3.Zero(), scene);
+camera.attachControl(canvas, true);
+
+    //sukuriami 4 objektai
+var box1 = BABYLON.MeshBuilder.CreateBox("Box1", { size: 10 }, scene);
+var box2 = BABYLON.MeshBuilder.CreateBox("Box2", { size: 10 }, scene);
+var box3 = BABYLON.MeshBuilder.CreateBox("Box3", { size: 10 }, scene);
+var box4 = BABYLON.MeshBuilder.CreateBox("Box4", { size: 10 }, scene);
+
+    //medziagos objektams
+var lightPinkMaterial = new BABYLON.StandardMaterial("lightPinkMaterial", scene);
+lightPinkMaterial.diffuseColor = new BABYLON.Color3(1, 0.75, 0.8); // Šviesiai rožinė spalva
+    
+var pastelBlueMaterial = new BABYLON.StandardMaterial("pastelBlueMaterial", scene);
+pastelBlueMaterial.diffuseColor = new BABYLON.Color3(0.5, 0.7, 1); // Pastelinė mėlyna spalva
+
+    // Pirmoji animacijos grupė - šviesiai rožinė
+box1.material = lightPinkMaterial;
+box2.material = lightPinkMaterial;
+
+    // Antroji animacijos grupė - pastelinė mėlyna
+box3.material = pastelBlueMaterial;
+box4.material = pastelBlueMaterial;
+
+    // Pozicijos nustatymas
+box1.position.x = -50;
+box2.position.x = -20;
+box3.position.x = 20;
+box4.position.x = 50;
+
+    // Animacija 1: judėjimas (translation)
+var translationAnim1 = new BABYLON.Animation("translationAnim1", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+translationAnim1.setKeys([
+{ frame: 0, value: box1.position.x },
+{ frame: 100, value: -20 }  // Box1 juda į poziciją x = -20
+]);
+
+var translationAnim2 = new BABYLON.Animation("translationAnim2", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+translationAnim2.setKeys([
+{ frame: 0, value: box2.position.x },
+ { frame: 100, value: 0 }  // Box2 juda į poziciją x = 0
+]);
+
+var translationAnim3 = new BABYLON.Animation("translationAnim3", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+translationAnim3.setKeys([
+{ frame: 0, value: box3.position.x },
+{ frame: 100, value: 20 }  // Box3 juda į poziciją x = 20
+]);
+
+var translationAnim4 = new BABYLON.Animation("translationAnim4", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+translationAnim4.setKeys([
+{ frame: 0, value: box4.position.x },
+{ frame: 100, value: 40 }  // Box4 juda į poziciją x = 40
+]);
+
+    // Animacija 2: rotacija (rotation)
+var rotationAnim = new BABYLON.Animation("rotationAnim", "rotation.y", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+rotationAnim.setKeys([
+{ frame: 0, value: 0 },
+{ frame: 100, value: Math.PI * 2 }  // visi boxes sukasi aplink y asi
+]);
+
+    //box1 ir box2
+var animationGroup1 = new BABYLON.AnimationGroup("group1");
+animationGroup1.addTargetedAnimation(translationAnim1, box1);
+animationGroup1.addTargetedAnimation(rotationAnim, box1);
+animationGroup1.addTargetedAnimation(translationAnim2, box2);
+animationGroup1.addTargetedAnimation(rotationAnim, box2);
+
+    //box3 ir box4
+var animationGroup2 = new BABYLON.AnimationGroup("group2");
+animationGroup2.addTargetedAnimation(translationAnim3, box3);
+animationGroup2.addTargetedAnimation(rotationAnim, box3);
+animationGroup2.addTargetedAnimation(translationAnim4, box4);
+animationGroup2.addTargetedAnimation(rotationAnim, box4);
+
+    // UI komponentai
+var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+var panel = new BABYLON.GUI.StackPanel();
+panel.isVertical = false;
+panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+advancedTexture.addControl(panel);
+
+var addButton = function (text, callback) {
+var button = BABYLON.GUI.Button.CreateSimpleButton("button", text);
+button.width = "140px";
+button.height = "40px";
+button.color = "white";
+button.background = "lightpink"; // Mygtuku fonas
+button.paddingLeft = "10px";
+button.paddingRight = "10px";
+button.onPointerUpObservable.add(function () {
+callback();
+});
+panel.addControl(button);
+};
+
+    // Mygtukai animacijos valdymui
+addButton("Play Group 1", function () {
+animationGroup1.play(true);  // Paleisti pirmą animacijos grupę
+});
+
+addButton("Play Group 2", function () {
+animationGroup2.play(true);  // Paleisti antra animacijos grupe
+});
+
+addButton("Pause", function () {
+animationGroup1.pause();
+animationGroup2.pause();  // Sustabdyti abi grupes
+});
+
+addButton("Stop", function () {
+animationGroup1.reset();
+animationGroup2.reset();
+animationGroup1.stop();
+animationGroup2.stop();  // Isjungti abi animacijas
+});
+
+return scene;
+};
+
+                window.initFunction = async function() {
+                    
+                    
+                    
+                    var asyncEngineCreation = async function() {
+                        try {
+                        return createDefaultEngine();
+                        } catch(e) {
+                        console.log("the available createEngine function failed. Creating the default engine instead");
+                        return createDefaultEngine();
+                        }
+                    }
+
+                    window.engine = await asyncEngineCreation();
+                    
+                    const engineOptions = window.engine.getCreationOptions?.();
+                    if (!engineOptions || engineOptions.audioEngine !== false) {
+                        
+                    }
+        if (!engine) throw 'engine should not be null.';
+        startRenderLoop(engine, canvas);
+        window.scene = createScene();};
+        initFunction().then(() => {sceneToRender = scene
+                    });
+
+                    // Resize
+                    window.addEventListener("resize", function () {
+                        engine.resize();
+                    });
+        </script>
+    </body>
+</html>
