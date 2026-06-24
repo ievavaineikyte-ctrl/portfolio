@@ -15,8 +15,8 @@ const socials = [
   },
   {
     label: 'LinkedIn',
-    value: 'linkedin.com/in/tavo-profilis',
-    href: 'https://www.linkedin.com/in/tavo-profilis',
+    value: 'ieva-vaineikyte',
+    href: 'https://www.linkedin.com/in/ieva-vaineikyte-6b1242419',
   },
 ]
 
