@@ -16,8 +16,8 @@ export const projects = [
       'Interaktyvi naršyklės aplikacija emocinių zonų tyrinėjimui. Vartotojas naršo medžio struktūroje, įeina į zonų gylį ir keičia vizualinę būseną realiu laiku.',
     technologies: ['JavaScript', 'HTML5', 'p5.js', 'Canvas 2D'],
     github: 'https://github.com/ievavaineikyte-ctrl/vidinis-medis',
-    demo: null,
-    image: '/projects/vidinis-medis.svg',
+    demo: '/demos/vidinis-medis/index.html',
+    image: '/demos/vidinis-medis/og-image.svg',
   },
   {
     id: 3,
